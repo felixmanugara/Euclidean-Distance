@@ -71,7 +71,7 @@ def data_plot(source):
     plt.title('Jarak Error GPS')
     plt.xlabel(xlab)
     plt.ylabel(ylab)
-    
+    plt.yticks(range(1,4))
     
     plt.hist(source,bins=bins,edgecolor="black")
     plt.axvline(average,color="orange",label="nilai rata-rata",linewidth=2)
