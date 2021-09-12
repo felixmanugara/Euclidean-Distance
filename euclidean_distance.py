@@ -72,9 +72,10 @@ def data_plot(source):
     plt.xlabel(xlab)
     plt.ylabel(ylab)
     plt.yticks(range(1,4))
+    color = "#ff7f50"
     
     plt.hist(source,bins=bins,edgecolor="black")
-    plt.axvline(average,color="orange",label="nilai rata-rata",linewidth=2)
+    plt.axvline(average,color=color,label="nilai rata-rata",linewidth=2)
     plt.legend(loc="best")
     plt.show()
 
