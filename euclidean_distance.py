@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from tabulate import tabulate
 
 # koordinat_mod from gps module reading
 def koordinat_GPS():
@@ -59,9 +60,15 @@ average = np.mean(data_stored)
 average_value = (f"jarak error rata-rata adalah: {average:.2f} Meter")
 print(average_value)
 
+def dictionary():
+    d = dict(enumerate(np_gps_arr.flatten(),1))
+    print(d)
+
+dictionary()
+
 def data_plot(source):
     bins = [20.5,22.5,24.5,26.5]
-    xlab = 'Nilai Error Dalam Meter'
+    xlab = 'Nilai Error [dalam Meter]'
     ylab = 'Jumlah Data'
     color = '#ff7f50'
 
@@ -70,9 +77,10 @@ def data_plot(source):
     plt.xlabel(xlab)
     plt.ylabel(ylab)
 
-    plt.hist(source,bins=bins,edgecolor="black")
+    plt.hist(source, bins=bins, edgecolor="black", alpha=0.8)
     plt.axvline(average,color=color,label='Nilai rata-rata',linewidth=2)
     plt.legend(loc='best')
+    plt.grid(True)
     plt.show()
 
-data_plot(data_stored)
+#data_plot(data_stored)
