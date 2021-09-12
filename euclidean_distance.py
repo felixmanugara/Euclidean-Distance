@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import math
 
 # koordinat_mod from gps module reading
 def koordinat_GPS():
@@ -36,7 +35,7 @@ np_gps_arr, np_ref_arr = array(gps_data,data_ref)
 
 # euclidean distance formula
 def counting_process():
-    formula = np.linalg.norm(np_gps_arr - np_ref_arr, axis=-1)
+    formula = np.linalg.norm(np_gps_arr - np_ref_arr, axis=1)
     return formula
 
 formula = counting_process()
