@@ -66,13 +66,13 @@ def data_plot(source):
     bins = [1.5, 3.5, 5.5, 7.5, 9.5, 11.5, 13.5, 15.5, 17.5]
     xlab = 'Selisih jarak error dalam meter'
     ylab = 'Jumlah Data'
+    color = "#ff7f50"
 
     # plot customizations
     plt.title('Jarak Error GPS')
     plt.xlabel(xlab)
     plt.ylabel(ylab)
     plt.yticks(range(1,4))
-    color = "#ff7f50"
     
     plt.hist(source,bins=bins,edgecolor="black")
     plt.axvline(average,color=color,label="nilai rata-rata",linewidth=2)
