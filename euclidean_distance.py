@@ -39,7 +39,7 @@ np_gps_arr, np_ref_arr = array(gps_data,data_ref)
 
 # euclidean distance formula
 def counting_process():
-    formula = np.linalg.norm(np_gps_arr - np_ref_arr, axis=-1)
+    formula = np.linalg.norm(np_gps_arr - np_ref_arr, axis=1)
     return formula
 
 formula = counting_process()
