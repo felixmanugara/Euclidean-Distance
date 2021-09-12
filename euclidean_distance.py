@@ -63,20 +63,19 @@ average = np.mean(data_stored)
 print(f"jarak error rata-rata adalah: {average:.2f} Meter")
 
 def data_plot(source):
-    frequency = [1,2,3,4]
-    bins = [5,10,15,20,25]
-    tick_lab = ['20m','21m','22m','23m','24m','25m','26m']
+    bins = [1.5, 3.5, 5.5, 7.5, 9.5, 11.5, 13.5, 15.5, 17.5]
     xlab = 'Selisih jarak error dalam meter'
-    ylab = 'Total data'
+    ylab = 'Jumlah Data'
 
     # plot customizations
+    plt.title('Jarak Error GPS')
     plt.xlabel(xlab)
     plt.ylabel(ylab)
-    #plt.xticks()
-    #plt.yticks(frequency)
     
-    plt.hist(source,bins=None,edgecolor="black")
+    
+    plt.hist(source,bins=bins,edgecolor="black")
     plt.axvline(average,color="orange",label="nilai rata-rata",linewidth=2)
+    plt.legend(loc="best")
     plt.show()
 
 data_plot(data_stored)
