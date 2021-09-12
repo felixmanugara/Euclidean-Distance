@@ -57,22 +57,23 @@ def store_data():
 data_stored = store_data()
 
 average = np.mean(data_stored)
-print(f"jarak error rata-rata adalah: {average:.2f} Meter")
+average_value = (f"jarak error rata-rata adalah: {average:.2f} Meter")
+print(average_value)
 
 def data_plot(source):
-    frequency = [1,2,3,4]
-    tick_val = [20,21,22,23,24,25,26]
-    tick_lab = ['20m','21m','22m','23m','24m','25m','26m']
-    xlab = 'Error Distance'
-    ylab = 'Frequency'
+    #frequency = [1,2,3,4]
+    bins = [20.5,22.5,24.5,26.5]
+    xlab = 'Nilai Error Dalam Meter'
+    ylab = 'Jumlah Data'
 
     # plot customizations
+    plt.title("Selisih Jarak Error GPS")
     plt.xlabel(xlab)
     plt.ylabel(ylab)
-    plt.xticks(tick_val,tick_lab)
-    plt.yticks(frequency)
-    
-    plt.hist(source,bins=6)
+
+    plt.hist(source,bins=bins,edgecolor="black")
+    plt.axvline(average,color="orange",label='Nilai rata-rata',linewidth=2)
+    plt.legend(loc='best')
     plt.show()
 
 data_plot(data_stored)
