@@ -61,10 +61,10 @@ average_value = (f"jarak error rata-rata adalah: {average:.2f} Meter")
 print(average_value)
 
 def data_plot(source):
-    #frequency = [1,2,3,4]
     bins = [20.5,22.5,24.5,26.5]
     xlab = 'Nilai Error Dalam Meter'
     ylab = 'Jumlah Data'
+    color = '#ff7f50'
 
     # plot customizations
     plt.title("Selisih Jarak Error GPS")
@@ -72,7 +72,7 @@ def data_plot(source):
     plt.ylabel(ylab)
 
     plt.hist(source,bins=bins,edgecolor="black")
-    plt.axvline(average,color="orange",label='Nilai rata-rata',linewidth=2)
+    plt.axvline(average,color=color,label='Nilai rata-rata',linewidth=2)
     plt.legend(loc='best')
     plt.show()
 
