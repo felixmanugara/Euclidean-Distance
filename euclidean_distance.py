@@ -64,18 +64,19 @@ print(f"jarak error rata-rata adalah: {average:.2f} Meter")
 
 def data_plot(source):
     frequency = [1,2,3,4]
-    tick_val = [20,21,22,23,24,25,26]
+    bins = [5,10,15,20,25]
     tick_lab = ['20m','21m','22m','23m','24m','25m','26m']
-    xlab = 'Error Distance'
-    ylab = 'Frequency'
+    xlab = 'Selisih jarak error dalam meter'
+    ylab = 'Total data'
 
     # plot customizations
     plt.xlabel(xlab)
     plt.ylabel(ylab)
-    plt.xticks(tick_val,tick_lab)
-    plt.yticks(frequency)
+    #plt.xticks()
+    #plt.yticks(frequency)
     
-    plt.hist(source,bins=6)
+    plt.hist(source,bins=None,edgecolor="black")
+    plt.axvline(average,color="orange",label="nilai rata-rata",linewidth=2)
     plt.show()
 
 data_plot(data_stored)
