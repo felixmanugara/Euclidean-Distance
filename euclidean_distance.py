@@ -1,23 +1,29 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
+import pandas as pd
 
 def koordinat_GPS():
     # generate the GPS tracking sensor module data from .csv
     # and change the data to ndarray data structures.
     gps_data = open("gpsdat.csv")
-    np_gps_arr = np.genfromtxt(gps_data, delimiter=",")
+    np_gps_arr = np.genfromtxt(gps_data, delimiter=",", skip_header=1)
     # reference coordinate from mobile phone GPS sensor reading
     # being use for calculate the error distance between mobile
     # GPS and the GPS module from the tracking system.
     np_ref_arr = np.array([-5.3723438,105.2500923]) 
-    print(np_gps_arr)
-    print(np_ref_arr)
+    #print(np_gps_arr)
+    #print(np_ref_arr)
     
     return np_gps_arr, np_ref_arr
     
 np_gps_arr, np_ref_arr = koordinat_GPS()
 
+def table():
+    # create dataframe from .csv
+    gps_data = pd.read_csv('gpsdat.csv')
+    print(gps_data)
+
+table()
 # euclidean distance formula
 def counting_process():
     formula = np.linalg.norm(np_gps_arr - np_ref_arr, axis=1)
@@ -35,7 +41,7 @@ def store_data():
         new_arr.append(m)
 
     np_new_arr = np.array(new_arr)
-    print(np_new_arr)
+    #print(np_new_arr)
     return np_new_arr
 
 data_stored = store_data()
