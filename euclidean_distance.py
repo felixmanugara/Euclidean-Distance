@@ -3,35 +3,16 @@ import numpy as np
 
 # koordinat_mod from gps module reading
 def koordinat_GPS():
-    gps_data =[[-5.3721453,105.2501265],
-               [-5.3721573,105.2500973],
-               [-5.3721093,105.2501245],
-               [-5.3721382,105.2500378],
-               [-5.3721327,105.2500537],
-               [-5.3721107,105.2500453],
-               [-5.3721357,105.2500975],
-               [-5.3721415,105.2501023],
-               [-5.3721390,105.2500798],
-               [-5.3721660,105.2500765]]
-    
-    return gps_data
-    
-# koordinat_ref being use for calculate error distance
-def koordinat_referensi():
-    data_ref = [-5.3723438,105.2500923]
-    return data_ref
-
-gps_data = koordinat_GPS()
-data_ref = koordinat_referensi()
-
-# numpy array
-def array(gps_array,ref_array):
-    np_gps_arr = np.array(gps_array)
-    np_ref_arr = np.array(ref_array)
+    gps_data = open("gpsdat.csv")
+    np_gps_arr = np.genfromtxt(gps_data, delimiter=",")
+    # koordinat_ref being use for calculate error distance
+    np_ref_arr = np.array([-5.3723438,105.2500923])
+    print(np_gps_arr)
+    print(np_ref_arr)
     
     return np_gps_arr, np_ref_arr
-
-np_gps_arr, np_ref_arr = array(gps_data,data_ref)
+    
+np_gps_arr, np_ref_arr = koordinat_GPS()
 
 # euclidean distance formula
 def counting_process():
@@ -60,7 +41,7 @@ average_value = (f"jarak error rata-rata adalah: {average:.2f} Meter")
 print(average_value)
 
 def data_plot(source):
-    bins = [20.5,22.5,24.5,26.5]
+    bins = 20
     xlab = 'Nilai Error Dalam Meter'
     ylab = 'Jumlah Data'
     color = '#ff7f50'
@@ -70,7 +51,7 @@ def data_plot(source):
     plt.xlabel(xlab)
     plt.ylabel(ylab)
 
-    plt.hist(source,bins=bins,edgecolor="black")
+    plt.hist(source,bins=bins,edgecolor="black", alpha=0.8)
     plt.axvline(average,color=color,label='Nilai rata-rata',linewidth=2)
     plt.legend(loc='best')
     plt.show()
