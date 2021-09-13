@@ -1,12 +1,16 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# koordinat_mod from gps module reading
+
 def koordinat_GPS():
+    # taking the GPS tracking sensor module data from .csv
+    # and change the data to ndarray data structures.
     gps_data = open("gpsdat.csv")
     np_gps_arr = np.genfromtxt(gps_data, delimiter=",")
-    # koordinat_ref being use for calculate error distance
-    np_ref_arr = np.array([-5.3723438,105.2500923])
+    # reference coordinate from mobile phone GPS sensor reading
+    # being use for calculate the error distance between mobile
+    # GPS and the GPS module from the tracking system.
+    np_ref_arr = np.array([-5.3723438,105.2500923]) 
     print(np_gps_arr)
     print(np_ref_arr)
     
@@ -21,7 +25,7 @@ def counting_process():
 
 formula = counting_process()
 
-# loop for storing calculations result
+# loop for storing calculation result
 def store_data():
     new_arr = []
     for i in formula:
