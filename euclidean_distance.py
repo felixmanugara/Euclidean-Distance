@@ -3,7 +3,7 @@ import numpy as np
 
 
 def koordinat_GPS():
-    # taking the GPS tracking sensor module data from .csv
+    # generate the GPS tracking sensor module data from .csv
     # and change the data to ndarray data structures.
     gps_data = open("gpsdat.csv")
     np_gps_arr = np.genfromtxt(gps_data, delimiter=",")
