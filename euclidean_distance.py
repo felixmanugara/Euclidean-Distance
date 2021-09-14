@@ -64,7 +64,7 @@ def dictionary():
     d = dict(enumerate(np_gps_arr.flatten(),1))
     print(d)
 
-dictionary()
+#dictionary()
 
 def data_plot(source):
     bins = [20.5,22.5,24.5,26.5]
@@ -83,4 +83,4 @@ def data_plot(source):
     plt.grid(True)
     plt.show()
 
-#data_plot(data_stored)
+data_plot(data_stored)
