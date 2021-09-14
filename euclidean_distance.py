@@ -44,7 +44,7 @@ def counting_process():
 
 formula = counting_process()
 
-# loop for storing calculations result
+# loop for storing calculation result
 def store_data():
     new_arr = []
     for i in formula:
