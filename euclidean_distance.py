@@ -47,17 +47,18 @@ def store_data():
 
 data_stored = store_data()
 
-average = np.mean(data_stored)
-#print(f"jarak error rata-rata adalah: {average:.2f} Meter")
-
 def dataframe(gps_reff, gps_arr):
-    df_reff = pd.DataFrame(gps_reff, columns=['Latitude (ref)', 'Longitude (ref)'], dtype=np.float64)
-    df_gps = pd.DataFrame(gps_arr, columns=['Latitude (GPS)', 'Longitude (GPS)'], dtype=np.float64)
+    index = list(range(1,8))
+    df_reff = pd.DataFrame(gps_reff,index= index, columns=['Latitude (ref)', 'Longitude (ref)'], dtype=np.float64)
+    df_gps = pd.DataFrame(gps_arr, index= index, columns=['Latitude (GPS)', 'Longitude (GPS)'], dtype=np.float64)
     df_all = pd.concat([df_reff,df_gps], axis= 1, join='outer')
     df_all['selisih Jarak (meter)'] = data_stored
     print(df_all)
 
 dataframe(np_ref_arr, np_gps_arr)
+
+average = np.mean(data_stored)
+#print(f"jarak error rata-rata adalah: {average:.2f} Meter")
 
 def data_plot(source):
     bins = [1.5, 3.5, 5.5, 7.5, 9.5, 11.5, 13.5, 15.5, 17.5]
