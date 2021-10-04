@@ -5,13 +5,14 @@ import pandas as pd
 
 def table():
     # create dataframe from .csv
-    data = pd.read_csv('gpsdat.csv',engine='python', header=None, names=['Latitude','Longitude','Sat count','Speed','Altitude','Date'], parse_dates=True)
-   
+    data = pd.read_csv('gpsdat.csv',engine='python')
+    #print(data)
     return data
 
 
 def koordinat_GPS(df):
-    np_gps_arr = pd.DataFrame(df).iloc[:,[0,1]].to_numpy(dtype=np.float64)
+    np_gps_arr = pd.DataFrame(df).loc[:,['Latitude','Longitude']].to_numpy(dtype=np.float32)
+    #print(np_gps_arr)
     np_ref_arr = np.array([-5.3723438,105.2500923]) 
     #print(np_ref_arr)
     
