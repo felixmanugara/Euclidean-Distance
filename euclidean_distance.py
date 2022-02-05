@@ -1,38 +1,29 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from tabulate import tabulate
-
-# koordinat_mod from gps module reading
-def koordinat_GPS():
-    gps_data =[[-5.3721453,105.2501265],
-               [-5.3721573,105.2500973],
-               [-5.3721093,105.2501245],
-               [-5.3721382,105.2500378],
-               [-5.3721327,105.2500537],
-               [-5.3721107,105.2500453],
-               [-5.3721357,105.2500975],
-               [-5.3721415,105.2501023],
-               [-5.3721390,105.2500798],
-               [-5.3721660,105.2500765]]
-    
-    return gps_data
-    
-# koordinat_ref being use for calculate error distance
-def koordinat_referensi():
-    data_ref = [-5.3723438,105.2500923]
-    return data_ref
-
-gps_data = koordinat_GPS()
-data_ref = koordinat_referensi()
+import pandas as pd
 
 # numpy array
-def array(gps_array,ref_array):
-    np_gps_arr = np.array(gps_array)
-    np_ref_arr = np.array(ref_array)
+def array():
+    np_gps_arr = np.array([[-5.3741278,105.2514637],
+                           [-5.3727553,105.2522518],
+                           [-5.3732140,105.2508992],
+                           [-5.3704840,105.2496747],
+                           [-5.3728913,105.2455960],
+                           [-5.3635015,105.2456365],
+                           [-5.3656357,105.2443033]])
+
+    np_ref_arr = np.array([[-5.3741387,105.2514740],
+                           [-5.3727958,105.2522109],
+                           [-5.3732511,105.2508500],
+                           [-5.3702449,105.2497647],
+                           [-5.3729377,105.2456338],
+                           [-5.3634703,105.2455758],
+                           [-5.3657855,105.2442934]])
     
     return np_gps_arr, np_ref_arr
 
-np_gps_arr, np_ref_arr = array(gps_data,data_ref)
+np_gps_arr, np_ref_arr = array()
+
 
 # euclidean distance formula
 def counting_process():
@@ -41,7 +32,7 @@ def counting_process():
 
 formula = counting_process()
 
-# loop for storing calculations result
+# loop for storing calculation result
 def store_data():
     new_arr = []
     for i in formula:
@@ -51,36 +42,39 @@ def store_data():
         new_arr.append(m)
 
     np_new_arr = np.array(new_arr)
-    print(np_new_arr)
+    #print(np_new_arr)
     return np_new_arr
 
 data_stored = store_data()
 
+def dataframe(gps_reff, gps_arr):
+    index = list(range(1,8))
+    df_reff = pd.DataFrame(gps_reff,index= index, columns=['Latitude (ref)', 'Longitude (ref)'], dtype=np.float64)
+    df_gps = pd.DataFrame(gps_arr, index= index, columns=['Latitude (GPS)', 'Longitude (GPS)'], dtype=np.float64)
+    df_all = pd.concat([df_reff,df_gps], axis= 1, join='outer')
+    df_all['selisih Jarak (meter)'] = data_stored
+    print(df_all)
+
+dataframe(np_ref_arr, np_gps_arr)
+
 average = np.mean(data_stored)
-average_value = (f"jarak error rata-rata adalah: {average:.2f} Meter")
-print(average_value)
-
-def dictionary():
-    d = dict(enumerate(np_gps_arr.flatten(),1))
-    print(d)
-
-#dictionary()
+#print(f"jarak error rata-rata adalah: {average:.2f} Meter")
 
 def data_plot(source):
-    bins = [20.5,22.5,24.5,26.5]
-    xlab = 'Nilai Error [dalam Meter]'
+    bins = [1.5, 3.5, 5.5, 7.5, 9.5, 11.5, 13.5, 15.5, 17.5]
+    xlab = 'Selisih jarak error dalam meter'
     ylab = 'Jumlah Data'
-    color = '#ff7f50'
+    color = "#ff7f50"
 
     # plot customizations
-    plt.title("Selisih Jarak Error GPS")
+    plt.title('Jarak Error GPS')
     plt.xlabel(xlab)
     plt.ylabel(ylab)
-
-    plt.hist(source, bins=bins, edgecolor="black", alpha=0.8)
-    plt.axvline(average,color=color,label='Nilai rata-rata',linewidth=2)
-    plt.legend(loc='best')
-    plt.grid(True)
+    plt.yticks(range(1,4))
+    
+    plt.hist(source,bins=bins,edgecolor="black")
+    plt.axvline(average,color=color,label="nilai rata-rata",linewidth=2)
+    plt.legend(loc="best")
     plt.show()
 
-data_plot(data_stored)
+#data_plot(data_stored)
