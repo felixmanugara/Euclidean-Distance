@@ -17,7 +17,7 @@ class GpsDataAnalytics:
         self.npGpsReferenceArray = np.array([-5.3721512,105.2500960])
         #print(self.npGpsModuleArray)
         #print(self.npGpsReferenceArray)
-    
+
     def countingProcess(self):
         self.dataProc = np.linalg.norm(self.npGpsModuleArray - self.npGpsReferenceArray, axis=1)
         #print(self.dataProc)
