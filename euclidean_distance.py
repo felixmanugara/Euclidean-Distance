@@ -30,7 +30,7 @@ class GpsDataAnalytics:
             m = round(km, 2)
             resultArray.append(m)
 
-        self.resultArrayData = np.array(resultArray)
+        self.resultArrayData = np.array(resultArray, dtype=np.int32)
         #print(self.resultArrayData)
     
     def finalDataTable(self):
@@ -41,11 +41,12 @@ class GpsDataAnalytics:
         mergeData = pd.concat([referenceCoordinate,self.dataset,self.errorDistanceData], axis=1)
         finalDataset = mergeData.fillna(method='ffill') # fill missing value 
         finalDataset.drop(columns=['Sat count','Speed','Dates','Alt'], inplace=True)
-        #print(finalDataset.head(10))
+        #print(finalDataset)
     
     def dataPlot(self):
-        minVal = self.errorDistanceData.min()
-        maxVal = self.errorDistanceData.max()
+        dataValue = self.resultArrayData
+        minVal = min(self.resultArrayData)
+        maxVal = max(self.resultArrayData)
         average = np.median(self.resultArrayData)
         binCount = math.ceil((maxVal - minVal) / 3)
         xLabel = "Nilai error dalam Meter"
@@ -56,18 +57,23 @@ class GpsDataAnalytics:
         plt.title("Selisih Jarak Error GPS")
         plt.xlabel(xLabel)
         plt.ylabel(yLabel)
+        plt.yticks(np.arange(0,22,2))
 
-        plt.hist(self.resultArrayData,bins=binCount,edgecolor="black", alpha=0.8)
+        plt.hist(dataValue,bins=binCount,edgecolor="black", alpha=0.8)
         plt.axvline(average,color=color,label='Nilai rata-rata',linewidth=2)
         plt.grid(color='grey',alpha=0.4)
         plt.legend(loc='best')
         plt.show()
+    
+    def run(self):
+        self.extractData()
+        self.countingProcess()
+        self.dataResult()
+        self.finalDataTable()
+        self.dataPlot()
 
 
 
 Analytics = GpsDataAnalytics('gpsdat.csv')
-Analytics.extractData()
-Analytics.countingProcess()
-Analytics.dataResult()
-Analytics.finalDataTable()
-Analytics.dataPlot()
+Analytics.run()
+
