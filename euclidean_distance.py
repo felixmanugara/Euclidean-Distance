@@ -46,7 +46,7 @@ class GpsDataAnalytics:
         referenceCoordinate = pd.DataFrame(gpsReferenceData.reshape(1,2),columns=['Latitude Referensi','Longitude Referensi'])
         referenceCoordinate.index= range(1,len(referenceCoordinate)+1)
         # index using data length
-        self.errorDistanceData = pd.DataFrame(errorDistanceData, columns=['Jarak Error (Meter)'], index= range(1,len(self.resultArrayData)+1))
+        self.errorDistanceData = pd.DataFrame(errorDistanceData, columns=['Jarak Error (Meter)'], index= range(1,len(errorDistanceData)+1))
         mergeData = pd.concat([referenceCoordinate,dataFrame,self.errorDistanceData], axis=1)
         finalDataset = mergeData.fillna(method='ffill') # fill missing value 
         finalDataset.drop(columns=['Sat count','Speed','Dates','Alt'], inplace=True)
