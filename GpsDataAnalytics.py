@@ -149,8 +149,5 @@ def run(InputNumber:int):
         elif InputNumber == 2:
             Analytics = DataFromList()
             Analytics.dataPlot()
-#Analytics1 = ReadDataFromCSV('gpsdat.csv')
-#Analytics2 = DataFromList()
-#Analytics1.dataPlot()
-#GpsDataAnalytics.dataPlot()
+
 run(2)
