@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import math
+import tabulate
 
 class GpsDataAnalytics:
 
@@ -49,7 +50,7 @@ class GpsDataAnalytics:
         mergeData = pd.concat([referenceCoordinate,dataFrame,self.errorDistanceData], axis=1)
         finalDataset = mergeData.fillna(method='ffill') # fill missing value 
         finalDataset.drop(columns=['Sat count','Speed','Dates','Alt'], inplace=True)
-        #print(finalDataset)
+        print(tabulate.tabulate(finalDataset, tablefmt='psql', showindex=True, headers='keys'))
     
     def dataPlot(self):
         dataValue = self.resultArrayData
@@ -82,5 +83,5 @@ class GpsDataAnalytics:
 
 
 Analytics = GpsDataAnalytics('gpsdat.csv')
-Analytics.dataPlot()
+#Analytics.dataPlot()
 
