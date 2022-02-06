@@ -29,17 +29,15 @@ class ReadDataFromCSV:
         #method call
         self.dataResult(self.dataProc)
 
-    def dataResult(self, processedData):
-        _resultArray = []
-        for i in processedData:
-            _multiplication = i * 111.322
-            _km = _multiplication * 1000
-            _m = round(_km, 2)
-            _resultArray.append(round(_m))
+    def dataResult(self, dataProcessed):
+        data = dataProcessed * 111.322
+        converttoMeters = data * 1000
+        datainMeters = np.around(converttoMeters)
 
-        self.resultArrayData = np.array(_resultArray)
-        #print(self.resultArrayData)
-        self.finalDataTable(self.resultArrayData,self.referenceArray,self.dataset)
+        self.dataCounted = datainMeters.astype(np.int32)
+
+        #print(self.dataCounted)
+        self.finalDataTable(self.dataCounted,self.referenceArray,self.dataset)
         
     
     def finalDataTable(self, errorDistanceData, gpsReferenceData, datasetFromCsv):
@@ -52,10 +50,10 @@ class ReadDataFromCSV:
         print(tabulate.tabulate(finalDataset, tablefmt='psql', showindex=True, headers='keys'))
     
     def dataPlot(self):
-        dataValue = self.resultArrayData
-        minVal = min(self.resultArrayData)
-        maxVal = max(self.resultArrayData)
-        average = np.median(self.resultArrayData)
+        dataValue = self.dataCounted
+        minVal = min(self.dataCounted)
+        maxVal = max(self.dataCounted)
+        average = np.median(self.dataCounted)
         _binCount = math.ceil((maxVal - minVal) / 3)
         _xLabel = "Nilai error dalam Meter"
         _yLabel = "Frekuensi Data"
@@ -68,9 +66,9 @@ class ReadDataFromCSV:
         #plt.yticks(np.arange(0,22,2))
 
         plt.hist(dataValue,bins=_binCount,edgecolor="black", alpha=0.8)
-        plt.axvline(average,color=color,label='Nilai rata-rata',linewidth=2)
-        plt.grid(color='grey',alpha=0.4)
-        plt.legend(loc='best')
+        #plt.axvline(average,color=color,label='Nilai rata-rata',linewidth=2)
+        plt.grid(axis='y',color='grey',alpha=0.8)
+        #plt.legend(loc='best')
         plt.show()
     
 
@@ -103,26 +101,24 @@ class DataFromList:
         self.storeData(self.dataProc)
             
      def storeData(self, dataProcessed):
-        dataResult = []
-        for i in dataProcessed:
-            result = i * 111.322
-            km = result * 1000
-            m = round(km,2)
-            dataResult.append(round(m))
+        data = dataProcessed * 111.322
+        converttoMeters = data * 1000
+        datainMeters = np.around(converttoMeters)
 
-        self.dataCounted = np.array(dataResult)
+        self.dataCounted = datainMeters.astype(np.int32)
+        #print(self.dataCounted)
         self.dataframe(self.gpsModuleArray,self.gpsReferenceArray,self.dataCounted)
         
         
      def dataframe(self, gpsModuleArray, gpsReferenceArray, dataCounted):
         index = list(range(1,8))
-        referenceData = pd.DataFrame(gpsReferenceArray,index= index, columns=['Latitude (ref)', 'Longitude (ref)'], dtype=np.float64)
-        gpsData = pd.DataFrame(gpsModuleArray, index= index, columns=['Latitude (GPS)', 'Longitude (GPS)'], dtype=np.float64)
+        referenceData = pd.DataFrame(gpsReferenceArray,index= index, columns=['Latitude referensi', 'Longitude referensi'], dtype=np.float64)
+        gpsData = pd.DataFrame(gpsModuleArray, index= index, columns=['Latitude modul', 'Longitude modul'], dtype=np.float64)
         resultData = pd.DataFrame(dataCounted, index= index, columns=['Jarak Error (Meter)'])
         self.df = pd.concat([referenceData,gpsData,resultData], axis= 1, join='outer')
         print(tabulate.tabulate(self.df, tablefmt='psql', showindex=True, headers='keys'))
 
-
+     
      def dataPlot(self):
         average = np.median(self.dataCounted)
         xlab = 'Selisih jarak error dalam meter'
@@ -136,11 +132,25 @@ class DataFromList:
         plt.yticks(range(1,4))
     
         plt.hist(self.dataCounted,edgecolor="black")
-        plt.axvline(average,color=color,label="nilai rata-rata",linewidth=2)
-        plt.legend(loc="best")
+        #plt.axvline(average,color=color,label="nilai rata-rata",linewidth=2)
+        plt.grid(axis='y',color='grey',alpha=0.8)
+        #plt.legend(loc="best")
         plt.show()
 
-Analytics1 = ReadDataFromCSV('gpsdat.csv')
-Analytics2 = DataFromList()
-#Analytics.dataPlot()
+   
+
+def run(InputNumber:int):
+    if InputNumber > 2:
+        raise "masukkan angka 1 atau 2"
+    else:
+        if InputNumber == 1:
+            Analytics = ReadDataFromCSV('gpsdat.csv')
+            Analytics.dataPlot()
+        elif InputNumber == 2:
+            Analytics = DataFromList()
+            Analytics.dataPlot()
+#Analytics1 = ReadDataFromCSV('gpsdat.csv')
+#Analytics2 = DataFromList()
+#Analytics1.dataPlot()
 #GpsDataAnalytics.dataPlot()
+run(2)
