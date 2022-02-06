@@ -120,7 +120,7 @@ class DataFromList:
         gpsData = pd.DataFrame(gpsModuleArray, index= index, columns=['Latitude (GPS)', 'Longitude (GPS)'], dtype=np.float64)
         resultData = pd.DataFrame(dataCounted, index= index, columns=['Jarak Error (Meter)'])
         self.df = pd.concat([referenceData,gpsData,resultData], axis= 1, join='outer')
-        print(self.df)
+        print(tabulate.tabulate(self.df, tablefmt='psql', showindex=True, headers='keys'))
 
 
      def dataPlot(self):
