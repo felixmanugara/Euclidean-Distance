@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import math
+import seaborn as sns
 import tabulate
 
 class GpsDatafromsameLocation:
@@ -26,9 +26,9 @@ class GpsDatafromsameLocation:
     def dataResult(self, dataProcessed):
         data = dataProcessed * 111.322
         converttoMeters = data * 1000
-        datainMeters = np.around(converttoMeters)
+        datainMeters = np.around(converttoMeters,2)
 
-        self.dataCounted = datainMeters.astype(np.int32)
+        self.dataCounted = datainMeters#.astype(np.int32)
 
         #print(self.dataCounted)
         self.finalDataTable(self.dataCounted,self.referenceArray,self.data)
@@ -43,25 +43,11 @@ class GpsDatafromsameLocation:
         print(tabulate.tabulate(finalDataset, tablefmt='psql', showindex=True, headers='keys'))
     
     def dataPlot(self):
-        dataValue = self.dataCounted
-        minVal = min(self.dataCounted)
-        maxVal = max(self.dataCounted)
-        average = np.median(self.dataCounted)
-        _binCount = math.ceil((maxVal - minVal) / 3)
-        _xLabel = "Nilai error dalam Meter"
-        _yLabel = "Frekuensi Data"
-        color = "#ff7f50"
-
-        #plot customizations
-        plt.title("Selisih Jarak Error GPS")
-        plt.xlabel(_xLabel)
-        plt.ylabel(_yLabel)
-        #plt.yticks(np.arange(0,22,2))
-
-        plt.hist(dataValue,bins=_binCount,edgecolor="black", alpha=0.8)
-        #plt.axvline(average,color=color,label='Nilai rata-rata',linewidth=2)
-        plt.grid(axis='y',color='grey',alpha=0.8)
-        #plt.legend(loc='best')
+        self.dataplot = sns.displot(self.dataCounted[:10], kde=True)
+        self.dataplot.set(title ="Jarak Error sama Lokasi",
+                          ylabel ="Frekuensi Data",
+                          xlabel ="Jarak Error (Meter)")
+        plt.grid(axis="y")
         plt.show()
     
 
@@ -69,8 +55,8 @@ class GpsDataFromDifferentLocation:
      
     
      def __init__(self,gpsDatafromCsv):
-        self.data = pd.read_csv(gpsDatafromCsv,index_col=None, engine='python',dtype={"Latitude modul": np.float64, "Longitude modul": np.float64})
-        self.data.index = range(1,8)
+        self.data = pd.read_csv(gpsDatafromCsv, engine='python',dtype={"Latitude modul": np.float64, "Longitude modul": np.float64})
+        self.data.index = range(1,11)
         # convert data to numpy array
         self.moduleArray = self.data.loc[:,['Latitude modul','Longitude modul']].to_numpy()
         self.referenceArray = self.data.loc[:,['Latitude referensi','Longitude referensi']].to_numpy()
@@ -85,40 +71,32 @@ class GpsDataFromDifferentLocation:
      def storeData(self, dataProcessed):
         data = dataProcessed * 111.322
         converttoMeters = data * 1000
-        datainMeters = np.around(converttoMeters)
-        self.dataCounted = datainMeters.astype(np.int32)
+        datainMeters = np.around(converttoMeters,2)
+        self.dataCounted = datainMeters#.astype(np.int32)
         #print(self.dataCounted)
         self.dataframe(self.data,self.dataCounted)
         
         
      def dataframe(self, dataFrame, dataCounted):
-        resultData = pd.DataFrame(dataCounted, index=range(1,8), columns=['Jarak Error (Meter)'])
+        resultData = pd.DataFrame(dataCounted, index=range(1,11), columns=['Jarak Error (Meter)'])
         self.df = pd.concat([dataFrame,resultData], axis= 1, join='outer')
         print(tabulate.tabulate(self.df, tablefmt='psql', showindex=True, headers='keys'))
 
      
      def dataPlot(self):
-        average = np.median(self.dataCounted)
-        xlab = 'Selisih jarak error dalam meter'
-        ylab = 'Jumlah Data'
-        color = "#ff7f50"
-
-        # plot customizations
-        plt.title('Jarak Error GPS')
-        plt.xlabel(xlab)
-        plt.ylabel(ylab)
-        plt.yticks(range(1,4))
-    
-        plt.hist(self.dataCounted,edgecolor="black")
-        #plt.axvline(average,color=color,label="nilai rata-rata",linewidth=2)
-        plt.grid(axis='y',color='grey',alpha=0.8)
-        #plt.legend(loc="best")
+        self.dataplot = sns.displot(self.dataCounted, kde=True)
+        self.dataplot.set(title ="Perbandingan jarak error berbeda lokasi",
+                          #yticks= range(5),
+                          #xticks= range(1,30,5),
+                          ylabel ="Frekuensi Data",
+                          xlabel ="Jarak Error (Meter)")
+        plt.grid(axis="y")
         plt.show()
 
 
 def run(InputNumber:int):
     if InputNumber > 2:
-        raise "masukkan angka 1 atau 2"
+        raise Exception("masukkan angka 1 atau 2")
     else:
         if InputNumber == 1:
             Analytics = GpsDatafromsameLocation('gpsdat.csv')
