@@ -14,7 +14,6 @@ class GpsDatafromsameLocation:
         self.referenceArray = self.dataset.loc[:,['Latitude referensi','Longitude referensi']].to_numpy()
        
     
-
 class GpsDatafromdifferentLocation:
      
      def __init__(self,datafromCsv):
