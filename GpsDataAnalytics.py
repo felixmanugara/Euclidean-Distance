@@ -12,8 +12,7 @@ class GpsDatafromsameLocation:
         # convert data to numpy array
         self.moduleArray = self.dataset.loc[:,['Latitude modul','Longitude modul']].to_numpy()
         self.referenceArray = self.dataset.loc[:,['Latitude referensi','Longitude referensi']].to_numpy()
-       
-    
+           
 class GpsDatafromdifferentLocation:
      
      def __init__(self,datafromCsv):
@@ -22,7 +21,6 @@ class GpsDatafromdifferentLocation:
         self.moduleArray = self.data.loc[:,['Latitude modul','Longitude modul']].to_numpy()
         self.referenceArray = self.data.loc[:,['Latitude referensi','Longitude referensi']].to_numpy()
         
-
 class DataProcess(GpsDatafromsameLocation,GpsDatafromdifferentLocation):
 
     def __init__(self, datafromcsv):
@@ -53,6 +51,6 @@ class DataProcess(GpsDatafromsameLocation,GpsDatafromdifferentLocation):
         plt.show()
     
 
-DatasameLoc = DataProcess("newdata.csv")
+DatasameLoc = DataProcess("SameLocation.csv")
 DatadifferentLoc = DataProcess("DifferentLocation.csv")
 #print(DataProcess.__dict__)
