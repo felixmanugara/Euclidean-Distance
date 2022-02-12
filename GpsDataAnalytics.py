@@ -12,6 +12,14 @@ class GpsDatafromsameLocation:
         # convert data to numpy array
         self.moduleArray = self.dataset.loc[:,['Latitude modul','Longitude modul']].to_numpy()
         self.referenceArray = self.dataset.loc[:,['Latitude referensi','Longitude referensi']].to_numpy()
+
+    def data_plot(self,plottitle):
+        self.dataplot = sns.displot(self.dataCounted, kde=True)
+        self.dataplot.set(title = plottitle,
+                          ylabel ="Frekuensi Data",
+                          xlabel ="Jarak Error (Meter)")
+        plt.grid(axis="y")
+        plt.show()
            
 class GpsDatafromdifferentLocation:
      
@@ -20,6 +28,14 @@ class GpsDatafromdifferentLocation:
         # convert data to numpy array
         self.moduleArray = self.data.loc[:,['Latitude modul','Longitude modul']].to_numpy()
         self.referenceArray = self.data.loc[:,['Latitude referensi','Longitude referensi']].to_numpy()
+
+     def data_plot(self,plottitle):
+        self.dataplot = sns.displot(self.dataCounted, kde=True)
+        self.dataplot.set(title = plottitle,
+                          ylabel ="Frekuensi Data",
+                          xlabel ="Jarak Error (Meter)")
+        plt.grid(axis="y")
+        plt.show()
         
 class DataProcess(GpsDatafromsameLocation,GpsDatafromdifferentLocation):
 
@@ -27,9 +43,9 @@ class DataProcess(GpsDatafromsameLocation,GpsDatafromdifferentLocation):
         super().__init__(datafromcsv)
         self.dataproc = np.linalg.norm(self.moduleArray - self.referenceArray, axis=1)
         # function call
-        self.storeData(self.dataproc)
+        self.store_data(self.dataproc)
             
-    def storeData(self, dataProcessed):
+    def store_data(self, dataProcessed):
         data = dataProcessed * 111.322
         converttoMeters = data * 1000
         datainMeters = np.around(converttoMeters,2)
@@ -40,17 +56,9 @@ class DataProcess(GpsDatafromsameLocation,GpsDatafromdifferentLocation):
         self.errordistance = pd.DataFrame(errordistancedata, columns=['Jarak Error (Meter)'])
         self.dataset = pd.concat([self.df,self.errordistance], axis=1)
         print(tabulate.tabulate(self.dataset, tablefmt='psql', showindex=True, headers='keys'))
-        self.dataPlot()
-    
-    def dataPlot(self):
-        self.dataplot = sns.displot(self.dataCounted, kde=True)
-        self.dataplot.set(title ="Jarak Error sama Lokasi",
-                          ylabel ="Frekuensi Data",
-                          xlabel ="Jarak Error (Meter)")
-        plt.grid(axis="y")
-        plt.show()
-    
+        
 
 DatasameLoc = DataProcess("SameLocation.csv")
 DatadifferentLoc = DataProcess("DifferentLocation.csv")
-#print(DataProcess.__dict__)
+DatasameLoc.data_plot("Jarak Error Sama Lokasi")
+DatadifferentLoc.data_plot("Jarak Error Berbeda Lokasi")
