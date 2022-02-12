@@ -14,3 +14,4 @@ Berikut adalah requirements yang dibutuhkan untuk menjalankan script ini
 - seaborn
 - numpy
 - pandas
+- tabulate
