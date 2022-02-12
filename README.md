@@ -11,5 +11,6 @@ Berikut adalah requirements yang dibutuhkan untuk menjalankan script ini
 
 - pip
 - matplotlib
+- seaborn
 - numpy
-- math
+- pandas
