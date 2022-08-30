@@ -8,7 +8,7 @@ class GpsDatafromsameLocation:
 
     def __init__(self, datafromcsv):
         self.dataset = pd.read_csv(datafromcsv)
-        self.df = pd.DataFrame(self.dataset)
+        self.df = self.dataset
         # convert data to numpy array
         self.moduleArray = self.dataset.loc[:,['Latitude modul','Longitude modul']].to_numpy()
         self.referenceArray = self.dataset.loc[:,['Latitude referensi','Longitude referensi']].to_numpy()
